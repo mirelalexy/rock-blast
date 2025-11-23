@@ -109,3 +109,127 @@ body {
 #trophy-icon:hover svg rect {
     fill: #15FF30;
 }
+
+.tutorial-section {
+    color: #FFFFFF;
+    font-family: "Press Start 2P";
+    font-size: 15px;
+    line-height: 28px;
+    align-self: stretch;
+    margin: 0;
+}
+
+.instructions p {
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Recursive;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0;
+}
+
+#movement-container {
+    display: flex;
+    height: 118px;
+    padding: 13px 19px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #56BFB3 41.83%, #D67DFF 100%);
+}
+
+#rotation-container {
+    display: flex;
+    height: 93px;
+    padding: 6px 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 14px;
+    background: #D67DFF;
+}
+
+#attack-container {
+    display: flex;
+    height: 93px;
+    padding: 6px 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 14px;
+    background: linear-gradient(0deg, #56BFB3 48.56%, #D67DFF 100%);
+}
+
+.instructions {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+}
+
+.instructions-row {
+    display: flex;
+    gap: 46px;
+    align-self: stretch;
+}
+
+.instructions-row div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#tutorial-cards-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 21px;
+    align-self: stretch;
+}
+
+#tutorial-popup {
+    display: flex;
+    width: 468px;
+    height: 570px;
+    padding: 20px 10px;
+    padding-top: 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 6px solid #D67DFF;
+    background: #000000;
+    position: relative;
+}
+
+#tutorial-title-instructions-container {
+    display: flex;
+    width: 406px;
+    flex-direction: column;
+    align-items: center;
+    gap: 46px;
+}
+
+#movement-instructions {
+    flex-direction: column;
+}
+
+#close-icon {
+    position: absolute;
+    top: 40px;
+    right: 1px;
+    width: 67px;
+    height: 67px;
+    cursor: pointer;
+}
