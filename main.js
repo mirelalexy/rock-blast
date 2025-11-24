@@ -1,10 +1,12 @@
 // open tutorial pop-up when clicking on tutorial button
-const tutorialBtn = document.getElementById('tutorial');
+const tutorialBtns = document.querySelectorAll('.tutorial');
 const tutorialOverlay = document.getElementById('tutorial-overlay');
 const closeTutorialBtn = document.getElementById('close-tutorial-icon');
 
-tutorialBtn.addEventListener('click', () => {
-    tutorialOverlay.style.display = 'flex';
+tutorialBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tutorialOverlay.style.display = 'flex';
+    });
 });
 
 closeTutorialBtn.addEventListener('click', () => {

@@ -42,7 +42,7 @@ body {
     cursor: pointer;
 }
 
-#tutorial {
+.tutorial {
     border-radius: 8px;
     border: 2px solid #C27AFF;
     background: #00000080;
@@ -55,7 +55,7 @@ body {
     font-size: 20px;
 }
 
-#tutorial:hover {
+.tutorial:hover {
     background: #654970D9;
     cursor: pointer;
 }
