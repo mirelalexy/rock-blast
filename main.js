@@ -73,6 +73,7 @@ startBtns.forEach(btn => {
         hsBtns.forEach(btn => btn.style.display = 'none');
         game.style.display = 'flex';
         gameOver.style.display = 'none';
+        bg.style.visibility = "hidden";
     });
 });
 
@@ -96,4 +97,5 @@ yesBtn.addEventListener('click', () => {
     warningOverlay.style.display = 'none';
     game.style.display = 'none';
     hsBtns[1].style.display = 'flex';
+    bg.style.visibility = "visible";
 });
