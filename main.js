@@ -12,12 +12,14 @@ closeTutorialBtn.addEventListener('click', () => {
 });
 
 // open highscores pop-up when clicking on trophy icon
-const hsBtn = document.getElementById('trophy-icon');
+const hsBtns = document.querySelectorAll('.trophy-icon');
 const hsOverlay = document.getElementById('hs-overlay');
 const closeHsBtn = document.getElementById('close-hs-icon');
 
-hsBtn.addEventListener('click', () => {
-    hsOverlay.style.display = 'flex';
+hsBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        hsOverlay.style.display = 'flex';
+    });
 });
 
 closeHsBtn.addEventListener('click', () => {
@@ -65,7 +67,7 @@ const game = document.getElementById('game-container')
 
 startBtn.addEventListener('click', () => {
     homepage.style.display = 'none';
-    hsBtn.style.display = 'none';
+    hsBtns.forEach(btn => btn.style.display = 'none');
     game.style.display = 'flex';
 });
 
@@ -73,6 +75,8 @@ startBtn.addEventListener('click', () => {
 const exitBtn = document.getElementById('exit');
 const warningOverlay = document.getElementById('warning-overlay');
 const noBtn = document.getElementById('no');
+const yesBtn = document.getElementById('yes');
+const gameOver =document.getElementById('game-over-container');
 
 exitBtn.addEventListener('click', () => {
     warningOverlay.style.display = 'flex';
@@ -80,4 +84,11 @@ exitBtn.addEventListener('click', () => {
 
 noBtn.addEventListener('click', () => {
     warningOverlay.style.display = 'none';
+});
+
+yesBtn.addEventListener('click', () => {
+    gameOver.style.display = 'flex';
+    warningOverlay.style.display = 'none';
+    game.style.display = 'none';
+    hsBtns[1].style.display = 'flex';
 });
