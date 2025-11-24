@@ -24,7 +24,7 @@ body {
     
 }
 
-#start {
+.start {
     border-radius: 8px;
     border: 2px solid #7BF1A8;
     background: linear-gradient(90deg, #14DE2C 0%, #1ACA20 100%);
@@ -37,7 +37,7 @@ body {
     font-size: 20px;
 }
 
-#start:hover {
+.start:hover {
     background: #15FF30;
     cursor: pointer;
 }

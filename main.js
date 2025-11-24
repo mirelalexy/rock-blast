@@ -61,14 +61,17 @@ function animate() {
 animate();
 
 // hide homepage when entering game
-const startBtn = document.getElementById('start');
+const startBtns = document.querySelectorAll('.start');
 const homepage = document.getElementById('home-container');
 const game = document.getElementById('game-container')
 
-startBtn.addEventListener('click', () => {
-    homepage.style.display = 'none';
-    hsBtns.forEach(btn => btn.style.display = 'none');
-    game.style.display = 'flex';
+startBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        homepage.style.display = 'none';
+        hsBtns.forEach(btn => btn.style.display = 'none');
+        game.style.display = 'flex';
+        gameOver.style.display = 'none';
+    });
 });
 
 // open warning pop-up when clicking on exit button
