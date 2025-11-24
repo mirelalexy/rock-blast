@@ -23,3 +23,37 @@ hsBtn.addEventListener('click', () => {
 closeHsBtn.addEventListener('click', () => {
     hsOverlay.style.display = 'none';
 });
+
+// animated homepage background
+// get context and screen size
+const bg = document.getElementById('bg');
+const ctx = bg.getContext("2d");
+
+// set canvas and background color;
+function resize() {
+    bg.width = window.innerWidth;
+    bg.height = window.innerHeight;
+}
+
+resize();
+
+// glow effect
+ctx.shadowBlur = 10;
+ctx.shadowColor = "white";
+
+function animate() {
+  // set random position and size for the stars
+    let x = Math.random() * bg.width;
+    let y = Math.random() * bg.height;
+    let r = Math.random() * 2.5;
+
+    // draw the stars;
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    setTimeout(animate, 100);
+}
+
+animate();
