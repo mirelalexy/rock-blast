@@ -233,3 +233,16 @@ body {
     height: 67px;
     cursor: pointer;
 }
+
+#tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000B3;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
