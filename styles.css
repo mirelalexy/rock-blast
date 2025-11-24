@@ -501,3 +501,42 @@ body {
     display: none;
     flex-direction: column;
 }
+
+#arrow-controls {
+    width: 150px;
+    height: 150px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+}
+
+#arrow-up {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#arrow-left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#arrow-right {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#arrow-down {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#rotation-attack-controls {
+    display: flex;
+    width: 70px;
+    height: 226px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+}
