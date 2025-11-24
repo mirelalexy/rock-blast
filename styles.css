@@ -356,3 +356,118 @@ body {
   z-index: -1;
   pointer-events: none;
 }
+
+#game-container {
+    display: none;
+}
+
+#game-stats {
+    display: flex;
+    width: 340px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+#game-stats p {
+    color: #FFF;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0;
+}
+
+#exit {
+    width: 120px;
+    height: 58px;
+    border-radius: 14px;
+    background: #F00;
+    color: #000;
+    text-align: center;
+    font-family: "Press Start 2P";
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+#exit:hover {
+    background: #FF4E4E;
+    cursor: pointer;
+}
+
+#warning-popup p {
+    color: #FFF;
+    text-align: center;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+#yes {
+    width: 82px;
+    height: 43px;
+    border-radius: 12px;
+    background: #4BFF1D;
+    text-align: center;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#yes:hover {
+    background: #80FF60;
+    cursor: pointer;
+}
+
+#no {
+    width: 82px;
+    height: 43px;
+    border-radius: 12px;
+    background: #FF0202;
+    text-align: center;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#no:hover {
+    background: #FF4E4E;
+    cursor: pointer;
+}
+
+#warning-btn-row {
+    display: flex;
+    width: 255px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#warning-popup {
+    display: flex;
+    width: 541px;
+    height: 216px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 6px solid #F00;
+    background: #000;
+    position: relative;
+}
+
+#warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000B3;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

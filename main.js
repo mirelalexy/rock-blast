@@ -57,3 +57,27 @@ function animate() {
 }
 
 animate();
+
+// hide homepage when entering game
+const startBtn = document.getElementById('start');
+const homepage = document.getElementById('home-container');
+const game = document.getElementById('game-container')
+
+startBtn.addEventListener('click', () => {
+    homepage.style.display = 'none';
+    hsBtn.style.display = 'none';
+    game.style.display = 'flex';
+});
+
+// open warning pop-up when clicking on exit button
+const exitBtn = document.getElementById('exit');
+const warningOverlay = document.getElementById('warning-overlay');
+const noBtn = document.getElementById('no');
+
+exitBtn.addEventListener('click', () => {
+    warningOverlay.style.display = 'flex';
+});
+
+noBtn.addEventListener('click', () => {
+    warningOverlay.style.display = 'none';
+});
