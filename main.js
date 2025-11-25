@@ -99,3 +99,21 @@ yesBtn.addEventListener('click', () => {
     hsBtns[1].style.display = 'flex';
     bg.style.visibility = "visible";
 });
+
+// game canvas
+// wrap in arrow function to prevent bugs/overwriting
+// code runs when the file loads
+(() => {
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // game state
+    let asteroids = [];
+    let rockets = [];
+    let score = 0;
+    let nextLifePts = 2000; // every 2000 points mean an extra life
+    let nextLifeThreshold = nextLifePts; // next score the player must hit to get a life
+    let lives = 3;
+    let maxRockets = 3;
+    let gameOver = false;
+})
