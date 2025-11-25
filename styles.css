@@ -365,21 +365,14 @@ body {
 
 #game-stats {
     display: flex;
-    width: 340px;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 3px;
 }
 
 #game-stats p {
-    color: #FFF;
+    color: #FFFFFF;
     font-family: "Press Start 2P";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 28px;
-    margin: 0;
+    font-size: 13px;
+    margin: 4px;
 }
 
 #exit {
