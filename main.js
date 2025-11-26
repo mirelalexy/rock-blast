@@ -261,4 +261,35 @@ yesBtn.addEventListener('click', () => {
             ctx.fillRect(-10, -4, 14, 8);
         }
     }
+
+    // draw ship on canvas
+    function drawShip() {
+        // move origin to ship position
+        ctx.translate(ship.x, ship.y);
+
+        // rotate canvas to ship angle (triangle points in the direction the ship is facing)
+        ctx.rotate(ship.angle);
+
+        ctx.beginPath();
+
+        // move up by half the height
+        ctx.moveTo(0, -ship.h / 2);
+
+        // draw a line from top to bottom-left corner of triangle
+        ctx.lineTo(-ship.w, ship.h / 2);
+
+        // draw a line bottom-left to bottom-right corner of triangle
+        ctx.lineTo(ship.w, ship.h / 2);
+
+        // complete triangle
+        ctx.closePath();
+
+        ctx.fillStyle = "#800080";
+        ctx.fill();
+
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.stroke();
+    }
+
+    drawShip();
 })
