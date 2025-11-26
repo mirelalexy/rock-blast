@@ -224,4 +224,41 @@ yesBtn.addEventListener('click', () => {
             ctx.fillText(String(this.health), this.x, this.y);
         }
     }
+
+    // rocket
+    class Rocket {
+        constructor(x, y, angle) {
+            this.x = x;
+            this.y = y;
+            const speed = 400; // pixels/second
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+        }
+
+        // movement based on delta time
+        update(dt) {
+            // new x = old x + speed * time
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+        }
+
+        // draw rocket
+        draw(ctx) {
+            // move origin to rocket position
+            ctx.translate(this.x, this.y);
+
+            // rotate canvas to align with the angle the rocket points to
+            ctx.rotate(Math.atan2(this.vy, this.vx));
+
+            // draw small rectangle centered at rocket position
+            // values:
+            // -10: move left of origin
+            // 14: rectangle extends to the right
+            // horizontal center = (-10 + 20/2) = 0 (perfectly centered)
+            // -4: move up of origin
+            // 8: rectangle extends downwards
+            // vertical center = (-4 + 8/2) = 0 (perfectly centered)
+            ctx.fillRect(-10, -4, 14, 8);
+        }
+    }
 })
