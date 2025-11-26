@@ -116,4 +116,26 @@ yesBtn.addEventListener('click', () => {
     let lives = 3;
     let maxRockets = 3;
     let gameOver = false;
+
+    // ship
+    const ship = {
+        x: 200, // from the left
+        y: 200, // from the top
+        w: 20, // half-width
+        h: 26,
+        angle: 0, // by default point to the right
+        speed: 180, // move 180 pixels/second
+        rotationSpeed: Math.PI // rotate 180°/second
+    }
+
+    // track what user is doing
+    const user = {
+        left: false,
+        right: false,
+        up: false,
+        down: false,
+        rotateLeft: false,
+        rotateRight: false,
+        shoot: false
+    }
 })
