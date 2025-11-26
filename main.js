@@ -165,5 +165,63 @@ yesBtn.addEventListener('click', () => {
     // use pythagorean theorem to calculate distance between two points (ship, asteroid)
     const dist = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
 
+    // asteroid
+    class Asteroid {
+        constructor(x, y, vx, vy, health) {
+            // assign data to asteroid obj
+            Object.assign(this, { x, y, vx, vy, health });
+        }
 
+        // get radius
+        get r() {
+            return astConfig[this.health].r;
+        }
+
+        // movement based on delta time
+        update(dt) {
+            // new x = old x + speed * time
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+
+            // if asteroid goes 10 pixels outside screen, teleport on the opposite side
+            const limit = 10;
+
+            // left side
+            if (this.x < -limit) {
+                this.x = canvas.clientWidth + limit;
+            }
+
+            // right side
+            if (this.x > canvas.clientWidth + limit) {
+                this.x = -limit;
+            }
+
+            // top side
+            if (this.y < -limit) {
+                this.y = canvas.clientWidth + limit;
+            }
+
+            // bottom side
+            if (this.y > canvas.clientWidth + limit) {
+                this.y = -limit;
+            }
+        }
+
+        // draw asteroid
+        draw(ctx) {
+            ctx.beginPath();
+            ctx.fillStyle = astConfig[this.health].color;
+
+            // full circle
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fill();
+
+            // text (lives left)
+            ctx.fillStyle = "#000000";
+            ctx.font = `${Math.max(12, this.r/ 1.5)}px "Press Start 2P"`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(String(this.health), this.x, this.y);
+        }
+    }
 })
