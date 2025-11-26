@@ -103,10 +103,14 @@ yesBtn.addEventListener('click', () => {
 // game canvas
 // wrap in arrow function to prevent bugs/overwriting
 // code runs when the file loads
-(() => {
+window.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
 
+    // set width and height
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
     // game state
     let asteroids = [];
     let rockets = [];
@@ -119,8 +123,8 @@ yesBtn.addEventListener('click', () => {
 
     // ship
     const ship = {
-        x: 200, // from the left
-        y: 200, // from the top
+        x: canvas.width / 2, // from the left
+        y: canvas.height / 2, // from the top
         w: 20, // half-width
         h: 26,
         angle: 0, // by default point to the right
