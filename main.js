@@ -138,4 +138,32 @@ yesBtn.addEventListener('click', () => {
         rotateRight: false,
         shoot: false
     }
+
+    // asteroid size/color based on lives left
+    const astConfig = {
+        1: {
+            color: "#ff00ff",
+            r: 18
+        },
+        2: {
+            color: "#ff9100",
+            r: 26
+        },
+        3: {
+            color: "#ffef0d",
+            r: 36
+        },
+        4: {
+            color: "#ff0000",
+            r: 26
+        }
+    }
+
+    // use random number for asteroid spawn/directions
+    const rand = (min, max) => Math.random() * (max - min) + min;
+
+    // use pythagorean theorem to calculate distance between two points (ship, asteroid)
+    const dist = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
+
+
 })
