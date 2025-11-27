@@ -192,21 +192,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // left side
             if (this.x < -limit) {
-                this.x = canvas.clientWidth + limit;
+                this.x = canvas.width + limit;
             }
 
             // right side
-            if (this.x > canvas.clientWidth + limit) {
+            if (this.x > canvas.width + limit) {
                 this.x = -limit;
             }
 
             // top side
             if (this.y < -limit) {
-                this.y = canvas.clientHeight + limit;
+                this.y = canvas.height + limit;
             }
 
             // bottom side
-            if (this.y > canvas.clientHeight + limit) {
+            if (this.y > canvas.height + limit) {
                 this.y = -limit;
             }
         }
@@ -429,29 +429,29 @@ window.addEventListener('DOMContentLoaded', () => {
         switch (side) {
             case 0:
                 // spawn randomly on x axis
-                x = rand(0, canvas.clientWidth);
+                x = rand(0, canvas.width);
                 y = -margin;
                 break;
             case 1:
-                x = canvas.clientWidth + margin;
+                x = canvas.width + margin;
                 // spawn randomly on y axis
-                y = rand(0, canvas.clientHeight);
+                y = rand(0, canvas.height);
                 break;
             case 2:
                  // spawn randomly on x axis
-                x = rand(0, canvas.clientWidth);
-                y = canvas.clientHeight + margin;
+                x = rand(0, canvas.width);
+                y = canvas.height + margin;
                 break;
             case 3:
                 x = -margin;
                 // spawn randomly on y axis
-                y = rand(0, canvas.clientHeight);
+                y = rand(0, canvas.height);
                 break;
         }
 
         // pick a random direction for asteroid to go to but avoid edges
-        const aimX = rand(0.2 * canvas.clientWidth, 0.8 * canvas.clientWidth);
-        const aimY = rand(0.2 * canvas.clientHeight, 0.8 * canvas.clientHeight);
+        const aimX = rand(0.2 * canvas.width, 0.8 * canvas.width);
+        const aimY = rand(0.2 * canvas.height, 0.8 * canvas.height);
 
         // calculate the angle the asteroid has to follow
         // aimX - x = how far to move on x axis to reach target point
@@ -486,8 +486,8 @@ window.addEventListener('DOMContentLoaded', () => {
             spawnAsteroid();
         }
         // place ship in page center
-        ship.x = canvas.clientWidth / 2;
-        ship.y = canvas.clientHeight / 2;
+        ship.x = canvas.width / 2;
+        ship.y = canvas.height / 2;
     }
 
     // store timestamp of previous frame
