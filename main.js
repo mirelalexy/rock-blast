@@ -66,11 +66,12 @@ animate();
 const startBtns = document.querySelectorAll('.start');
 const homepage = document.getElementById('home-container');
 const game = document.getElementById('game-container');
+const input = document.getElementById('username');
 let username = "";
+let score = 0;
 
 startBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        const input = document.getElementById('username');
         username = input.value.trim() || "Player"; // default name if left empty
 
         homepage.style.display = 'none';
@@ -87,6 +88,8 @@ const warningOverlay = document.getElementById('warning-overlay');
 const noBtn = document.getElementById('no');
 const yesBtn = document.getElementById('yes');
 const gameOverPage = document.getElementById('game-over-container');
+const finalScoreSpan = document.getElementById("final-score");
+const finalUser = document.getElementById("player-username");
 
 exitBtn.addEventListener('click', () => {
     warningOverlay.style.display = 'flex';
@@ -97,6 +100,8 @@ noBtn.addEventListener('click', () => {
 });
 
 yesBtn.addEventListener('click', () => {
+    finalScoreSpan.textContent = score;
+    finalUser.textContent = username;
     gameOverPage.style.display = 'flex';
     warningOverlay.style.display = 'none';
     game.style.display = 'none';
@@ -131,7 +136,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // game state
     let asteroids = [];
     let rockets = [];
-    let score = 0;
+    // score is global
     let nextLifePts = 2000; // every 2000 points mean an extra life
     let nextLifeThreshold = nextLifePts; // next score the player must hit to get a life
     let lives = 3;
@@ -588,10 +593,7 @@ window.addEventListener("DOMContentLoaded", () => {
             gameOverPage.style.display = 'flex';
             bg.style.visibility = 'visible';
             // final stats and username
-            const finalScoreSpan = document.getElementById("final-score");
             finalScoreSpan.textContent = score;
-
-            const finalUser = document.getElementById("player-username");
             finalUser.textContent = username;
         }
 
