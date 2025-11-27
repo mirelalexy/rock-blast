@@ -202,11 +202,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // top side
             if (this.y < -limit) {
-                this.y = canvas.clientWidth + limit;
+                this.y = canvas.clientHeight + limit;
             }
 
             // bottom side
-            if (this.y > canvas.clientWidth + limit) {
+            if (this.y > canvas.clientHeight + limit) {
                 this.y = -limit;
             }
         }
