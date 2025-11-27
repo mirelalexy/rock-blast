@@ -247,6 +247,7 @@ window.addEventListener("DOMContentLoaded", () => {
             this.vy = Math.sin(angle) * speed;
             // introduce life in seconds
             this.life = 3.0;
+            this.r = 4; // radius
         }
 
         // movement based on delta time
@@ -589,7 +590,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // handle asteroid/asteroid collision
     function astHitsAst() {
         for (let i = 0; i < asteroids.length; i++) {
-            for (let j = 0; j < asteroids.length; j++) {
+            for (let j = i + 1; j < asteroids.length; j++) {
                 const ast1 = asteroids[i];
                 const ast2 = asteroids[j];
 
@@ -615,7 +616,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 
                     // when they collide, 2 gains velocity
                     ast2.vx += p * nx;
-                    ast2.vy += p * nx;
+                    ast2.vy += p * ny;
 
                     // calculate overlap
                     const overlap = (minD - distance) / 2;
@@ -669,9 +670,7 @@ window.addEventListener("DOMContentLoaded", () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // update movement for ship, rockets, and asteroids
-        updateShip(dt);
-        rockets.forEach(rocket => rocket.update(dt));
-        asteroids.forEach(asteroid => asteroid.update(dt));
+        update(dt);
 
         // draw ship, rockets, and asteroids
         drawShip();
