@@ -413,5 +413,66 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // spawn random asteroids
+    function spawnAsteroid() {
+        // choose side of screen to spawn from
+        // 0: top, 1: right, 2: bottom, 3: left
+        const side = Math.floor(rand(0, 4));
+
+        // spawn outside the screen so it slides in naturally
+        const margin = 30;
+
+        // store horizontal/vertical position
+        let x, y;
+
+        // spawn on side
+        switch (side) {
+            case 0:
+                // spawn randomly on x axis
+                x = rand(0, canvas.clientWidth);
+                y = -margin;
+                break;
+            case 1:
+                x = canvas.clientWidth + margin;
+                // spawn randomly on y axis
+                y = rand(0, canvas.clientHeight);
+                break;
+            case 2:
+                 // spawn randomly on x axis
+                x = rand(0, canvas.clientWidth);
+                y = canvas.clientHeight + margin;
+                break;
+            case 3:
+                x = -margin;
+                // spawn randomly on y axis
+                y = rand(0, canvas.clientHeight);
+                break;
+        }
+
+        // pick a random direction for asteroid to go to but avoid edges
+        const aimX = rand(0.2 * canvas.clientWidth, 0.8 * canvas.clientWidth);
+        const aimY = rand(0.2 * canvas.clientHeight, 0.8 * canvas.clientHeight);
+
+        // calculate the angle the asteroid has to follow
+        // aimX - x = how far to move on x axis to reach target point
+        // aimY - y = how far to move on y axis to reach target point
+        const angle = Math.atan2(aimY - y, aimX - x);
+
+        // pick a random speed in px/second to make the game feel less predictable
+        const speed = rand(30, 110);
+
+        // pick health (1-4)
+        const health = Math.floor(rand(1, 5));
+
+        // convert angle and speed into velocity
+        // vx = how fast it moves left/right
+        // vy = how fast it  moves up/down
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+
+        // create asteroid
+        asteroids.push(new Asteroid(x, y, vx, vy, health));
+    }
+
     drawShip();
 })
