@@ -82,7 +82,7 @@ const exitBtn = document.getElementById('exit');
 const warningOverlay = document.getElementById('warning-overlay');
 const noBtn = document.getElementById('no');
 const yesBtn = document.getElementById('yes');
-const gameOver =document.getElementById('game-over-container');
+const gameOverPage = document.getElementById('game-over-container');
 
 exitBtn.addEventListener('click', () => {
     warningOverlay.style.display = 'flex';
@@ -93,7 +93,7 @@ noBtn.addEventListener('click', () => {
 });
 
 yesBtn.addEventListener('click', () => {
-    gameOver.style.display = 'flex';
+    gameOverPage.style.display = 'flex';
     warningOverlay.style.display = 'none';
     game.style.display = 'none';
     hsBtns[1].style.display = 'flex';
