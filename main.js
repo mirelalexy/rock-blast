@@ -295,5 +295,68 @@ window.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
     }
 
+    // keyboard events
+    // when key is pressed
+    window.addEventListener('keydown', e => {
+        // handle arrows, z, c, x
+
+        // handle both uppercase/lowercase letters
+        const key = e.key.toLowerCase();
+
+        switch (key) {
+            case 'arrowleft':
+                user.left = true;
+                break;
+            case 'arrowright':
+                user.right = true;
+                break;
+            case 'arrowup':
+                user.up = true;
+                break;
+            case 'arrowdown':
+                user.down = true;
+                break;
+            case 'z':
+                user.rotateLeft = true;
+                break;
+            case 'c':
+                user.rotateRight = true;
+                break;
+            case 'x':
+                shoot();
+                break;
+        }
+    })
+
+    // when key is released
+    window.addEventListener('keyup', e => {
+        // handle arrows, z, c, x
+
+        // handle both uppercase/lowercase letters
+        const key = e.key.toLowerCase();
+
+        switch (key) {
+            case 'arrowleft':
+                user.left = false;
+                break;
+            case 'arrowright':
+                user.right = false;
+                break;
+            case 'arrowup':
+                user.up = false;
+                break;
+            case 'arrowdown':
+                user.down = false;
+                break;
+            case 'z':
+                user.rotateLeft = false;
+                break;
+            case 'c':
+                user.rotateRight = false;
+                break;
+            // no state to turn off for x: shooting is an instant action
+        }
+    })
+
     drawShip();
 })
