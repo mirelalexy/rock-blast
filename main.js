@@ -65,10 +65,14 @@ animate();
 // hide homepage when entering game
 const startBtns = document.querySelectorAll('.start');
 const homepage = document.getElementById('home-container');
-const game = document.getElementById('game-container')
+const game = document.getElementById('game-container');
+let username = "";
 
 startBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+        const input = document.getElementById('username');
+        username = input.value.trim() || "Player"; // default name if left empty
+
         homepage.style.display = 'none';
         hsBtns.forEach(btn => btn.style.display = 'none');
         game.style.display = 'flex';
@@ -578,7 +582,18 @@ window.addEventListener("DOMContentLoaded", () => {
         updateGameStatsUI();
 
         // if no more lives...
+        if (lives <= 0) {
+            gameOver = true;
+            game.style.display = 'none';
+            gameOverPage.style.display = 'flex';
+            bg.style.visibility = 'visible';
+            // final stats and username
+            const finalScoreSpan = document.getElementById("final-score");
+            finalScoreSpan.textContent = score;
 
+            const finalUser = document.getElementById("player-username");
+            finalUser.textContent = username;
+        }
 
         // reset ship to center of page
         ship.x = canvas.width / 2;
@@ -677,6 +692,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // game loop
     function gameLoop(timestamp) {
+        if (gameOver) return; // stop game
+
         // use delta time
         const dt = (timestamp - lastTime) / 1000; // px/second
         lastTime = timestamp;
@@ -700,5 +717,7 @@ window.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(gameLoop);
 
     // spawn asteroids every three seconds
-    setInterval(spawnAsteroid, 3000);
+    const spawnInterval = setInterval(() => {
+        if (!gameOver) spawnAsteroid();
+    }, 3000);
 })
