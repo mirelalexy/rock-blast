@@ -358,5 +358,20 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    // move ship based on keyboard events and delta time
+    function updateShip(dt) {
+        // use delta time to assure smooth movement
+        if (user.left) ship.x -= ship.speed * dt;
+        if (user.right) ship.x += ship.speed * dt;
+        if (user.up) ship.y -= ship.speed * dt;
+        if (user.down) ship.y += ship.speed * dt;
+        if (user.rotateLeft) ship.angle -= ship.rotationSpeed * dt;
+        if (user.rotateRight) ship.angle += ship.rotationSpeed * dt;
+
+        // make sure ship does not go outside canvas
+        ship.x = Math.max(0, Math.min(canvas.width, ship.x)); // ship.x cannot be greater than width of canvas/negative
+        ship.y = Math.max(0, Math.min(canvas.height, ship.y));
+    }
+
     drawShip();
 })
