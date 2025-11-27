@@ -474,5 +474,19 @@ window.addEventListener('DOMContentLoaded', () => {
         asteroids.push(new Asteroid(x, y, vx, vy, health));
     }
 
-    drawShip();
+    // initialize game
+    function initGame() {
+        asteroids = [];
+        rockets = [];
+        score = 0;
+        lives = 3;
+        gameOver = false;
+        // spawn five asteroids
+        for (let i = 0; i < 5; i++) {
+            spawnAsteroid();
+        }
+        // place ship in page center
+        ship.x = canvas.clientWidth / 2;
+        ship.y = canvas.clientHeight / 2;
+    }
 })
