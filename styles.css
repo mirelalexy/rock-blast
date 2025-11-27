@@ -566,3 +566,10 @@ body {
     z-index: 0;
     pointer-events: none;
 }
+
+#countdown {
+    font-size: 48px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: "Press Start 2P";
+}

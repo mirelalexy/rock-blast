@@ -69,6 +69,7 @@ const game = document.getElementById('game-container');
 const input = document.getElementById('username');
 let username = "";
 let score = 0;
+let gamePaused = false;
 
 startBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -85,18 +86,54 @@ startBtns.forEach(btn => {
 // open warning pop-up when clicking on exit button
 const exitBtn = document.getElementById('exit');
 const warningOverlay = document.getElementById('warning-overlay');
+const warningPopup = document.getElementById('warning-popup');
 const noBtn = document.getElementById('no');
 const yesBtn = document.getElementById('yes');
 const gameOverPage = document.getElementById('game-over-container');
 const finalScoreSpan = document.getElementById("final-score");
 const finalUser = document.getElementById("player-username");
+const countdownDiv = document.getElementById('countdown');
 
 exitBtn.addEventListener('click', () => {
+    // pause game
+    gamePaused = true;
+
+    // make elements visible
     warningOverlay.style.display = 'flex';
+    warningPopup.style.display = 'flex';
+
+    // clear any intervals set just in case
+    clearInterval(interval);
+
+    // reset countdown text
+    countdownDiv.textContent = '';
+
 });
 
 noBtn.addEventListener('click', () => {
-    warningOverlay.style.display = 'none';
+    // pause the game
+    gamePaused = true;
+
+    // show overlay only
+    warningOverlay.style.display = 'flex';
+    warningPopup.style.display = 'none';
+
+    // reset countdown
+    let countdown = 3;
+    countdownDiv.textContent = countdown;
+
+    const interval = setInterval(() => {
+        countdown--;
+        countdownDiv.textContent = countdown;
+
+        if (countdown <= 0) {
+            clearInterval(interval);
+            warningOverlay.style.display = 'none';
+            // unpause game
+            gamePaused = false;
+            countdownDiv.textContent = '';
+        }
+    }, 1000);
 });
 
 yesBtn.addEventListener('click', () => {
@@ -697,19 +734,24 @@ window.addEventListener("DOMContentLoaded", () => {
         if (gameOver) return; // stop game
 
         // use delta time
-        const dt = (timestamp - lastTime) / 1000; // px/second
-        lastTime = timestamp;
+        if (!gamePaused) {
+            const dt = (timestamp - lastTime) / 1000; // px/second
+            lastTime = timestamp;
 
-        // clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // update movement for ship, rockets, and asteroids
-        update(dt);
+            // update movement for ship, rockets, and asteroids
+            update(dt);
 
-        // draw ship, rockets, and asteroids
-        drawShip();
-        rockets.forEach(rocket => rocket.draw(ctx));
-        asteroids.forEach(asteroid => asteroid.draw(ctx));
+            // draw ship, rockets, and asteroids
+            drawShip();
+            rockets.forEach(rocket => rocket.draw(ctx));
+            asteroids.forEach(asteroid => asteroid.draw(ctx));
+        }
+        else {
+            lastTime = timestamp; // pause game
+        }
 
         // continue game loop for each new frame
         requestAnimationFrame(gameLoop);
