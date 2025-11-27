@@ -72,7 +72,7 @@ startBtns.forEach(btn => {
         homepage.style.display = 'none';
         hsBtns.forEach(btn => btn.style.display = 'none');
         game.style.display = 'flex';
-        gameOver.style.display = 'none';
+        gameOverPage.style.display = 'none';
         bg.style.visibility = "hidden";
     });
 });
