@@ -552,6 +552,17 @@ window.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // handle case of ship hitting asteroid
+    function shipHitsAst(ast) {
+        // ship is not a circle, so approx radius to understand how big the ship is
+        const shipR = Math.max(ship.w, ship.h);
+
+        // calculate distance between ship and asteroid
+        const distance = dist(ship.x, ship.y, ast.x, ast.y);
+
+        return distance < shipR + ast.r;
+    }
+
     // main update loop
     function update(dt) {
         if (gameOver) return;
@@ -569,7 +580,12 @@ window.addEventListener("DOMContentLoaded", () => {
         updateShip(dt);
 
         // if ship collides with asteroid...
-        
+        asteroids.forEach(asteroid => {
+            if (shipHitsAst(asteroid)) {
+                // reset... (change number of lives and center ship again)
+            
+            }
+        })
     }
 
 
