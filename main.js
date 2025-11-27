@@ -245,6 +245,8 @@ window.addEventListener("DOMContentLoaded", () => {
             const speed = 400; // pixels/second
             this.vx = Math.cos(angle) * speed;
             this.vy = Math.sin(angle) * speed;
+            // introduce life in seconds
+            this.life = 3.0;
         }
 
         // movement based on delta time
@@ -252,6 +254,8 @@ window.addEventListener("DOMContentLoaded", () => {
             // new x = old x + speed * time
             this.x += this.vx * dt;
             this.y += this.vy * dt;
+            // update life
+            this.life -= dt;
         }
 
         // draw rocket
@@ -497,6 +501,55 @@ window.addEventListener("DOMContentLoaded", () => {
         // place ship in page center
         ship.x = canvas.width / 2;
         ship.y = canvas.height / 2;
+    }
+
+    // rocket/asteroid interactions
+    // handle case of rocket hitting asteroid
+    function rocketHitsAst(rocket, ast) {
+        // calculate distance between center of rocket and center of asteroid
+        const distance = dist(rocket.x, rocket.y, ast.x, ast.y);
+        // since they are both circles, compare distance to the sum of their radiuses
+        // if the sum is greater, collision exists because circles overlap
+        return distance < rocket.r + ast.r;
+    }
+
+    // solve bug: rockets show up only the first time x is pressed
+    function updateRockets(dt) {
+        rockets.forEach(rocket => {
+            rocket.update(dt);
+
+            // remove if off-screen or life has expired
+            if (rocket.life <= 0 || rocket.x < -30 || rocket.x > canvas.width + 30 ||
+                rocket.y < -30 || rocket.y > canvas.height + 30) {
+                rockets.splice(rockets.indexOf(rocket), 1);
+            }
+
+            // check collisions with asteroids
+            asteroids.forEach(asteroid => {
+                if (rocketHitsAst(rocket, asteroid)) {
+                    // reduce asteroid health
+                    asteroid.health = Math.max(0, asteroid.health - 1);
+
+                    // destroy rocket
+                    rockets.splice(rockets.indexOf(rocket), 1);
+
+                    // if asteroid destroyed, give player score and life
+                    if (asteroid.health <= 0) {
+                        score += 200;
+                        if (score >= nextLifeThreshold) {
+                            lives += 1;
+                            nextLifeThreshold += nextLifePts;
+                        }
+
+                        // remove asteroid
+                        asteroids.splice(asteroids.indexOf(asteroid), 1);
+
+                        // spawn new asteroid
+                        spawnAsteroid();
+                    }
+                }
+            })
+        })
     }
 
     // store timestamp of previous frame
