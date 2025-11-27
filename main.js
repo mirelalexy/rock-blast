@@ -552,6 +552,27 @@ window.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // main update loop
+    function update(dt) {
+        if (gameOver) return;
+
+        // update asteroids
+        asteroids.forEach(asteroid => asteroid.update(dt));
+
+        // if asteroids collide...
+
+
+        // update rockets and handle rocket/asteroid collisions
+        updateRockets(dt);
+
+        // update ship
+        updateShip(dt);
+
+        // if ship collides with asteroid...
+        
+    }
+
+
     // store timestamp of previous frame
     let lastTime = 0;
 
