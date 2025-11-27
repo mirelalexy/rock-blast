@@ -118,7 +118,7 @@ window.addEventListener("DOMContentLoaded", () => {
     })
     
     resizeGameCanvas();
-    
+
     // game state
     let asteroids = [];
     let rockets = [];
@@ -273,6 +273,7 @@ window.addEventListener("DOMContentLoaded", () => {
             // -4: move up of origin
             // 8: rectangle extends downwards
             // vertical center = (-4 + 8/2) = 0 (perfectly centered)
+            ctx.fillStyle = "#FFFFFF";
             ctx.fillRect(-10, -4, 14, 8);
 
             // restore
