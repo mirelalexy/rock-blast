@@ -586,6 +586,51 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // handle asteroid/asteroid collision
+    function astHitsAst() {
+        for (let i = 0; i < asteroids.length; i++) {
+            for (let j = 0; j < asteroids.length; j++) {
+                const ast1 = asteroids[i];
+                const ast2 = asteroids[j];
+
+                // calculate distance between the two asteroids
+                const distance = dist(ast1.x, ast1.y, ast2.x, ast2.y);
+
+                // calculate sum of their radiuses
+                const minD = ast1.r + ast2.r;
+
+                // if circles overlap, collision occures
+                if (distance < minD && distance > 0) {
+                    // normalize vector
+                    nx = (ast2.x - ast1.x) / distance;
+                    ny = (ast2.y - ast1.y) / distance;
+
+                    // difference in how fast they are moving into each other
+                    // how fast 1 is moving into 2 - how fast 2 is moving into 1 along the collision direction
+                    const p = ast1.vx * nx + ast1.vy * ny - ast2.vx * nx - ast2.vy * ny;
+
+                    // when they collide, 1 bounces back => loses velocity in the collision direction
+                    ast1.vx -= p * nx;
+                    ast1.vy -= p * ny;
+                
+                    // when they collide, 2 gains velocity
+                    ast2.vx += p * nx;
+                    ast2.vy += p * nx;
+
+                    // calculate overlap
+                    const overlap = (minD - distance) / 2;
+
+                    // 1 loses, 2 gains
+                    ast1.x -= nx * overlap;
+                    ast2.y -= ny * overlap;
+
+                    ast2.x += nx * overlap;
+                    ast2.y += ny * overlap;
+                }
+            }
+        }
+    }
+
     // main update loop
     function update(dt) {
         if (gameOver) return;
@@ -594,7 +639,7 @@ window.addEventListener("DOMContentLoaded", () => {
         asteroids.forEach(asteroid => asteroid.update(dt));
 
         // if asteroids collide...
-
+        astHitsAst();
 
         // update rockets and handle rocket/asteroid collisions
         updateRockets(dt);
