@@ -107,6 +107,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
 
+    // game stats
+    const scoreSpan = document.getElementById("score");
+    const livesSpan = document.getElementById("lives");
+    const nextLifeSpan = document.getElementById("next-life");
+
     // resize canvas whenever the window changes
     function resizeGameCanvas() {
         canvas.width = window.innerWidth;
@@ -537,9 +542,11 @@ window.addEventListener("DOMContentLoaded", () => {
                     // if asteroid destroyed, give player score and life
                     if (asteroid.health <= 0) {
                         score += 200;
-                        if (score >= nextLifeThreshold) {
+                        updateGameStatsUI();
+                        while (score >= nextLifeThreshold) {
                             lives += 1;
                             nextLifeThreshold += nextLifePts;
+                            updateGameStatsUI();
                         }
 
                         // remove asteroid
@@ -568,6 +575,7 @@ window.addEventListener("DOMContentLoaded", () => {
     function resetAfterCollision() {
         // update lives
         lives -= 1;
+        updateGameStatsUI();
 
         // if no more lives...
 
@@ -632,6 +640,14 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // update game stats
+    function updateGameStatsUI() {
+        scoreSpan.textContent = score;
+        livesSpan.textContent = lives;
+        ptsLeft = nextLifeThreshold - score;
+        nextLifeSpan.textContent = ptsLeft;
+    }
+
     // main update loop
     function update(dt) {
         if (gameOver) return;
@@ -655,7 +671,6 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
-
 
     // store timestamp of previous frame
     let lastTime = 0;
