@@ -563,6 +563,29 @@ window.addEventListener("DOMContentLoaded", () => {
         return distance < shipR + ast.r;
     }
 
+    // reset after ship/asteroid collision
+    function resetAfterCollision() {
+        // update lives
+        lives -= 1;
+
+        // if no more lives...
+
+
+        // reset ship to center of page
+        ship.x = canvas.width / 2;
+        ship.y = canvas.height / 2;
+
+        // reset angle and rockets
+        ship.angle = 0;
+        rockets = [];
+
+        // respawn asteroids
+        asteroids = [];
+        for (let i = 0; i < 5; i++) {
+            spawnAsteroid();
+        }
+    }
+
     // main update loop
     function update(dt) {
         if (gameOver) return;
@@ -582,8 +605,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // if ship collides with asteroid...
         asteroids.forEach(asteroid => {
             if (shipHitsAst(asteroid)) {
-                // reset... (change number of lives and center ship again)
-            
+                resetAfterCollision();
             }
         })
     }
