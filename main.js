@@ -248,6 +248,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // draw rocket
         draw(ctx) {
+            // save before translate/rotate
+            ctx.save();
+
             // move origin to rocket position
             ctx.translate(this.x, this.y);
 
@@ -263,11 +266,17 @@ window.addEventListener('DOMContentLoaded', () => {
             // 8: rectangle extends downwards
             // vertical center = (-4 + 8/2) = 0 (perfectly centered)
             ctx.fillRect(-10, -4, 14, 8);
+
+            // restore
+            ctx.restore();
         }
     }
 
     // draw ship on canvas
     function drawShip() {
+        // save before translate/rotate
+        ctx.save();
+
         // move origin to ship position
         ctx.translate(ship.x, ship.y);
 
@@ -293,6 +302,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         ctx.strokeStyle = "#FFFFFF";
         ctx.stroke();
+
+        // restore
+        ctx.restore();
     }
 
     // keyboard events
