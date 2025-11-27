@@ -373,5 +373,33 @@ window.addEventListener('DOMContentLoaded', () => {
         ship.y = Math.max(0, Math.min(canvas.height, ship.y));
     }
 
+    // shoot rockets
+    function shoot() {
+        // assure we cannot have more than three rockets
+        if (rockets.length >= maxRockets) return;
+
+        // create three rockets centered on ship angle fired in a small spread
+        const baseAngle = ship.angle;
+        const spread = 0.16; // radians
+
+        // recreate final angles
+        const angles = [baseAngle, baseAngle - spread, baseAngle + spread];
+
+        for (const angle of angles) {
+            // assure we cannot have more than three rockets
+            if (rockets.length >= maxRockets) break;
+
+            // move from center of ship to shoot
+            // cos: how far to move on the x axis
+            // sin: how far to move on the y axis
+            // to move by length, multiply by length (in this case half of ship height)
+            const sx = ship.x + Math.cos(angle) * (ship.h / 2);
+            const sy = ship.y + Math.sin(angle) * (ship.h / 2);
+            
+            // create new rocket
+            rockets.push(new Rocket(sx, sy, angle));
+        }
+    }
+
     drawShip();
 })
