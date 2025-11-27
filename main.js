@@ -489,4 +489,36 @@ window.addEventListener('DOMContentLoaded', () => {
         ship.x = canvas.clientWidth / 2;
         ship.y = canvas.clientHeight / 2;
     }
+
+    // store timestamp of previous frame
+    let lastTime = 0;
+
+    // game loop
+    function gameLoop(timestamp) {
+        // use delta time
+        const dt = (timestamp - lastTime) / 1000; // px/second
+        lastTime = timestamp;
+
+        // clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // update movement for ship, rockets, and asteroids
+        updateShip(dt);
+        rockets.forEach(rocket => rocket.update(dt));
+        asteroids.forEach(asteroid => asteroid.update(dt));
+
+        // draw ship, rockets, and asteroids
+        drawShip();
+        rockets.forEach(rocket => rocket.draw(ctx));
+        asteroids.forEach(asteroid => asteroid.draw(ctx));
+
+        // continue game loop for each new frame
+        requestAnimationFrame(gameLoop);
+    }
+
+    // start game loop
+    requestAnimationFrame(gameLoop);
+
+    // spawn asteroids every three seconds
+    setInterval(spawnAsteroid, 3000);
 })
