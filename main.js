@@ -103,13 +103,21 @@ yesBtn.addEventListener('click', () => {
 // game canvas
 // wrap in arrow function to prevent bugs/overwriting
 // code runs when the file loads
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
 
-    // set width and height
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // resize canvas whenever the window changes
+    function resizeGameCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", () => {
+        resizeGameCanvas();
+    })
+    
+    resizeGameCanvas();
     
     // game state
     let asteroids = [];
