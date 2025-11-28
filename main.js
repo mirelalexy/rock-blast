@@ -614,7 +614,8 @@ window.addEventListener("DOMContentLoaded", () => {
         // calculate distance between ship and asteroid
         const distance = dist(ship.x, ship.y, ast.x, ast.y);
 
-        return distance < shipR + ast.r;
+        // subtract a number from sum to get collision right (ship radius is not accurate enough by itself, collision happens too early)
+        return distance < shipR + ast.r - 9;
     }
 
     // reset after ship/asteroid collision
