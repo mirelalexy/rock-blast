@@ -20,6 +20,7 @@ const closeHsBtn = document.getElementById('close-hs-icon');
 
 hsBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+        renderHighScores();
         hsOverlay.style.display = 'flex';
     });
 });
@@ -94,6 +95,64 @@ const finalScoreSpan = document.getElementById("final-score");
 const finalUser = document.getElementById("player-username");
 const countdownDiv = document.getElementById('countdown');
 
+// store top 5 high scores (fake data)
+let highScores = [ { player: "Norre", score: 1000 }, { player: "Pink_", score: 800 }, { player: "HeavenAndBack", score: 600 }, { player: "Miss", score: 400 }, { player: "Lexy", score: 200 }];
+
+// run once at startup to populate highscore pop-up
+if (!localStorage.getItem("highScores")) {
+    saveHighScores(highScores);
+}
+
+// save high scores using web storage api
+function saveHighScores(highScores) {
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+}
+
+// load high scores using web storage api
+function loadHighScores() {
+    const scores = localStorage.getItem("highScores");
+    return scores ? JSON.parse(scores) : []; 
+}
+
+// add high scores
+function addHighScore(player, score) {
+    let highScores = loadHighScores();
+
+    // add new score
+    highScores.push({ player, score });
+
+    // sort descending by score
+    highScores.sort((player1, player2) => player2.score - player1.score);
+
+    // keep only top five
+    highScores = highScores.slice(0, 5);
+
+    // save new top five in local storage
+    saveHighScores(highScores); 
+}
+
+function renderHighScores() {
+    // get highscore container
+    const hsContainer = document.getElementById('hs-cards-container');
+
+    // get highscores
+    const highScores = loadHighScores();
+
+    // clean old content
+    hsContainer.innerHTML = "";
+    
+    // render each highscore
+    highScores.forEach(hs => {
+        hsContainer.innerHTML += `<div class="hs-card">
+                                    <div class="hs-place-user">
+                                        <p class="hs-place">${highScores.indexOf(hs) + 1}</p>
+                                        <p class="hs-user">${hs.player}</p>
+                                    </div>
+                                    <p class="hs-score">${hs.score}</p>
+                                  </div>`;
+    })
+}
+
 exitBtn.addEventListener('click', () => {
     // pause game
     gamePaused = true;
@@ -139,6 +198,25 @@ noBtn.addEventListener('click', () => {
 yesBtn.addEventListener('click', () => {
     finalScoreSpan.textContent = score;
     finalUser.textContent = username;
+    addHighScore(username, score);
+
+    // get info container
+    const infoContainer = document.getElementById('info-container');
+
+    // clear old content/go back to default
+    infoContainer.innerHTML = `<p><span id="player-username">${username}</span>, you earned <span id="final-score">${score}</span> points!</p>`;
+
+    // get highscores
+    const scores = loadHighScores();
+
+    // define index to use to search through highscores
+    const index = scores.findIndex(hs => hs.player === username && hs.score === score);
+
+    // inform player if in score is in top five
+    if (index != -1) {
+        infoContainer.innerHTML += `<p id="hs-place-p">You are #${highScores.indexOf(score)} in Top Scores.</p>`;
+    }
+
     gameOverPage.style.display = 'flex';
     warningOverlay.style.display = 'none';
     game.style.display = 'none';
@@ -629,10 +707,12 @@ window.addEventListener("DOMContentLoaded", () => {
             gameOver = true;
             game.style.display = 'none';
             gameOverPage.style.display = 'flex';
+            hsBtns.forEach(btn => btn.style.display = 'flex');
             bg.style.visibility = 'visible';
             // final stats and username
             finalScoreSpan.textContent = score;
             finalUser.textContent = username;
+            addHighScore(username, score);
         }
 
         // reset ship to center of page
