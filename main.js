@@ -205,20 +205,20 @@ window.addEventListener("DOMContentLoaded", () => {
     // asteroid size/color based on lives left
     const astConfig = {
         1: {
-            color: "#ff00ff",
+            color: "#FF0000",
             r: 18
         },
         2: {
-            color: "#ff9100",
+            color: "#FF9100",
             r: 26
         },
         3: {
-            color: "#ffef0d",
+            color: "#FFEF0D",
             r: 36
         },
         4: {
-            color: "#ff0000",
-            r: 26
+            color: "#FF00FF",
+            r: 46
         }
     }
 
