@@ -64,25 +64,14 @@ function animate() {
 animate();
 
 // hide homepage when entering game
-const startBtns = document.querySelectorAll('.start');
+const startBtn = document.getElementById('start');
+const startOverBtn = document.getElementById('start-over');
 const homepage = document.getElementById('home-container');
 const game = document.getElementById('game-container');
 const input = document.getElementById('username');
 let username = "";
 let score = 0;
 let gamePaused = false;
-
-startBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        username = input.value.trim() || "Player"; // default name if left empty
-
-        homepage.style.display = 'none';
-        hsBtns.forEach(btn => btn.style.display = 'none');
-        game.style.display = 'flex';
-        gameOverPage.style.display = 'none';
-        bg.style.visibility = "hidden";
-    });
-});
 
 // open warning pop-up when clicking on exit button
 const exitBtn = document.getElementById('exit');
@@ -94,9 +83,43 @@ const gameOverPage = document.getElementById('game-over-container');
 const finalScoreSpan = document.getElementById("final-score");
 const finalUser = document.getElementById("player-username");
 const countdownDiv = document.getElementById('countdown');
+let interval = null;
+
+startBtn.addEventListener('click', () => {
+    username = input.value.trim() || "Player"; // default name if left empty
+
+    homepage.style.display = 'none';
+    hsBtns.forEach(btn => btn.style.display = 'none');
+    game.style.display = 'flex';
+    gameOverPage.style.display = 'none';
+    bg.style.visibility = 'hidden';
+});
+
+// restart game state when clicking on start over
+function startOver() {
+    // reset asteroids, score...
+    initGame();
+
+    // allow game loop to run
+    gameOver = false;
+    gamePaused = false;
+
+    // reset timestamp
+    lastTime = performance.now();
+
+    // style
+    game.style.display = 'flex';
+    gameOverPage.style.display = 'none';
+    bg.style.visibility = 'hidden';
+    hsBtns.forEach(btn => btn.style.display = 'none');
+}
+
+startOverBtn.addEventListener('click', () => {
+    startOver();
+})
 
 // store top 5 high scores (fake data)
-let highScores = [ { player: "Norre", score: 1000 }, { player: "Pink_", score: 800 }, { player: "HeavenAndBack", score: 600 }, { player: "Miss", score: 400 }, { player: "Lexy", score: 200 }];
+let highScores = [ { player: "Norre", score: 8000 }, { player: "Pink_", score: 6000 }, { player: "HeavenAndBack", score: 4400 }, { player: "Lexy", score: 2200 }, { player: "Jinx", score: 2000 }];
 
 // run once at startup to populate highscore pop-up
 if (!localStorage.getItem("highScores")) {
@@ -162,7 +185,7 @@ exitBtn.addEventListener('click', () => {
     warningPopup.style.display = 'flex';
 
     // clear any intervals set just in case
-    clearInterval(interval);
+    if (interval) clearInterval(interval);
 
     // reset countdown text
     countdownDiv.textContent = '';
@@ -181,7 +204,7 @@ noBtn.addEventListener('click', () => {
     let countdown = 3;
     countdownDiv.textContent = countdown;
 
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
         countdown--;
         countdownDiv.textContent = countdown;
 
