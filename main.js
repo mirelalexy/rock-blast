@@ -40,6 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let interval = null;
     const maxAsteroids = 10; // avoid spawning too many asteroids for balanced gameplay
     let gameActive = false;
+    let spawnInterval = null;
 
 
     // create animated stars homepage background
@@ -137,15 +138,28 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // restart game state when clicking on start over
     startOverBtn.addEventListener('click', () => {
-        // reset asteroids, score...
-        initGame();
+        // reset interval
+        if (spawnInterval) {
+            clearInterval(spawnInterval);
+            spawnInterval = null;
+        }
 
-        // allow game loop to run
+        // reset state
+        initGame();
         gameOver = false;
         gamePaused = false;
+        gameActive = true;
 
         // reset timestamp
         lastTime = performance.now();
+
+        // restart game loop
+        requestAnimationFrame(gameLoop);
+
+        // spawn asteroids every three seconds
+        spawnInterval = setInterval(() => {
+            if (!gameOver && gameActive) spawnAsteroid();
+        }, 3000);
 
         // style
         game.style.display = 'flex';
@@ -666,7 +680,7 @@ window.addEventListener("DOMContentLoaded", () => {
         rockets = [];
         score = 0;
         lives = 3;
-        gameOver = false;
+        nextLifeThreshold = nextLifePts;  // reset threshold
         // spawn five asteroids
         for (let i = 0; i < 5; i++) {
             spawnAsteroid();
@@ -674,6 +688,9 @@ window.addEventListener("DOMContentLoaded", () => {
         // place ship in page center
         ship.x = canvas.width / 2;
         ship.y = canvas.height / 2;
+
+        // update ui
+        updateGameStatsUI();
     }
 
     // rocket/asteroid interactions
@@ -757,6 +774,12 @@ window.addEventListener("DOMContentLoaded", () => {
             finalScoreSpan.textContent = score;
             finalUser.textContent = username;
             addHighScore(username, score);
+
+            // clear interval
+            if (spawnInterval) {
+                clearInterval(spawnInterval);
+                spawnInterval = null;
+            }
         }
 
         // reset ship to center of page
