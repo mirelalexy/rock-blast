@@ -252,7 +252,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let asteroids = [];
     let rockets = [];
     // score is global
-    let nextLifePts = 2000; // every 2000 points mean an extra life
+    let nextLifePts = 4000; // every 4000 points mean an extra life
     let nextLifeThreshold = nextLifePts; // next score the player must hit to get a life
     let lives = 3;
     let maxRockets = 3;
