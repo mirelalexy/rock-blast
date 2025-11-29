@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let score = 0;
     let gamePaused = false;
     let interval = null;
-    const maxAsteroids = 10; // avoid spawning too many asteroids for balanced gameplay
+    const maxAsteroids = 15; // avoid spawning too many asteroids for balanced gameplay
     let gameActive = false;
     let spawnInterval = null;
 
