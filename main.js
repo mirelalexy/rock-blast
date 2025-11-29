@@ -1,263 +1,290 @@
-// open tutorial pop-up when clicking on tutorial button
-const tutorialBtns = document.querySelectorAll('.tutorial');
-const tutorialOverlay = document.getElementById('tutorial-overlay');
-const closeTutorialBtn = document.getElementById('close-tutorial-icon');
-
-tutorialBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        tutorialOverlay.style.display = 'flex';
-    });
-});
-
-closeTutorialBtn.addEventListener('click', () => {
-    tutorialOverlay.style.display = 'none';
-});
-
-// open highscores pop-up when clicking on trophy icon
-const hsBtns = document.querySelectorAll('.trophy-icon');
-const hsOverlay = document.getElementById('hs-overlay');
-const closeHsBtn = document.getElementById('close-hs-icon');
-
-hsBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        renderHighScores();
-        hsOverlay.style.display = 'flex';
-    });
-});
-
-closeHsBtn.addEventListener('click', () => {
-    hsOverlay.style.display = 'none';
-});
-
-// animated homepage background
-// get context and screen size
-const bg = document.getElementById('bg');
-const ctx = bg.getContext("2d");
-
-// set canvas and background color;
-function resize() {
-    bg.width = window.innerWidth;
-    bg.height = window.innerHeight;
-}
-
-resize();
-
-// glow effect
-ctx.shadowBlur = 10;
-ctx.shadowColor = "white";
-
-function animate() {
-  // set random position and size for the stars
-    let x = Math.random() * bg.width;
-    let y = Math.random() * bg.height;
-    let r = Math.random() * 2.5;
-
-    // draw the stars;
-    ctx.beginPath();
-    ctx.fillStyle = "white";
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
-
-    setTimeout(animate, 100);
-}
-
-animate();
-
-// hide homepage when entering game
-const startBtn = document.getElementById('start');
-const startOverBtn = document.getElementById('start-over');
-const homepage = document.getElementById('home-container');
-const game = document.getElementById('game-container');
-const input = document.getElementById('username');
-let username = "";
-let score = 0;
-let gamePaused = false;
-
-// open warning pop-up when clicking on exit button
-const exitBtn = document.getElementById('exit');
-const warningOverlay = document.getElementById('warning-overlay');
-const warningPopup = document.getElementById('warning-popup');
-const noBtn = document.getElementById('no');
-const yesBtn = document.getElementById('yes');
-const gameOverPage = document.getElementById('game-over-container');
-const finalScoreSpan = document.getElementById("final-score");
-const finalUser = document.getElementById("player-username");
-const countdownDiv = document.getElementById('countdown');
-let interval = null;
-
-startBtn.addEventListener('click', () => {
-    username = input.value.trim() || "Player"; // default name if left empty
-
-    homepage.style.display = 'none';
-    hsBtns.forEach(btn => btn.style.display = 'none');
-    game.style.display = 'flex';
-    gameOverPage.style.display = 'none';
-    bg.style.visibility = 'hidden';
-});
-
-// restart game state when clicking on start over
-function startOver() {
-    // reset asteroids, score...
-    initGame();
-
-    // allow game loop to run
-    gameOver = false;
-    gamePaused = false;
-
-    // reset timestamp
-    lastTime = performance.now();
-
-    // style
-    game.style.display = 'flex';
-    gameOverPage.style.display = 'none';
-    bg.style.visibility = 'hidden';
-    hsBtns.forEach(btn => btn.style.display = 'none');
-}
-
-startOverBtn.addEventListener('click', () => {
-    startOver();
-})
-
-// store top 5 high scores (fake data)
-let highScores = [ { player: "Norre", score: 8000 }, { player: "Pink_", score: 6000 }, { player: "HeavenAndBack", score: 4400 }, { player: "Lexy", score: 2200 }, { player: "Jinx", score: 2000 }];
-
-// run once at startup to populate highscore pop-up
-if (!localStorage.getItem("highScores")) {
-    saveHighScores(highScores);
-}
-
-// save high scores using web storage api
-function saveHighScores(highScores) {
-    localStorage.setItem("highScores", JSON.stringify(highScores));
-}
-
-// load high scores using web storage api
-function loadHighScores() {
-    const scores = localStorage.getItem("highScores");
-    return scores ? JSON.parse(scores) : []; 
-}
-
-// add high scores
-function addHighScore(player, score) {
-    let highScores = loadHighScores();
-
-    // add new score
-    highScores.push({ player, score });
-
-    // sort descending by score
-    highScores.sort((player1, player2) => player2.score - player1.score);
-
-    // keep only top five
-    highScores = highScores.slice(0, 5);
-
-    // save new top five in local storage
-    saveHighScores(highScores); 
-}
-
-function renderHighScores() {
-    // get highscore container
-    const hsContainer = document.getElementById('hs-cards-container');
-
-    // get highscores
-    const highScores = loadHighScores();
-
-    // clean old content
-    hsContainer.innerHTML = "";
-    
-    // render each highscore
-    highScores.forEach(hs => {
-        hsContainer.innerHTML += `<div class="hs-card">
-                                    <div class="hs-place-user">
-                                        <p class="hs-place">${highScores.indexOf(hs) + 1}</p>
-                                        <p class="hs-user">${hs.player}</p>
-                                    </div>
-                                    <p class="hs-score">${hs.score}</p>
-                                  </div>`;
-    })
-}
-
-exitBtn.addEventListener('click', () => {
-    // pause game
-    gamePaused = true;
-
-    // make elements visible
-    warningOverlay.style.display = 'flex';
-    warningPopup.style.display = 'flex';
-
-    // clear any intervals set just in case
-    if (interval) clearInterval(interval);
-
-    // reset countdown text
-    countdownDiv.textContent = '';
-
-});
-
-noBtn.addEventListener('click', () => {
-    // pause the game
-    gamePaused = true;
-
-    // show overlay only
-    warningOverlay.style.display = 'flex';
-    warningPopup.style.display = 'none';
-
-    // reset countdown
-    let countdown = 3;
-    countdownDiv.textContent = countdown;
-
-    interval = setInterval(() => {
-        countdown--;
-        countdownDiv.textContent = countdown;
-
-        if (countdown <= 0) {
-            clearInterval(interval);
-            warningOverlay.style.display = 'none';
-            // unpause game
-            gamePaused = false;
-            countdownDiv.textContent = '';
-        }
-    }, 1000);
-});
-
-yesBtn.addEventListener('click', () => {
-    finalScoreSpan.textContent = score;
-    finalUser.textContent = username;
-    addHighScore(username, score);
-
-    // get info container
-    const infoContainer = document.getElementById('info-container');
-
-    // clear old content/go back to default
-    infoContainer.innerHTML = `<p><span id="player-username">${username}</span>, you earned <span id="final-score">${score}</span> points!</p>`;
-
-    // get highscores
-    const scores = loadHighScores();
-
-    // define index to use to search through highscores
-    const index = scores.findIndex(hs => hs.player === username && hs.score === score);
-
-    // inform player if in score is in top five
-    if (index != -1) {
-        infoContainer.innerHTML += `<p id="hs-place-p">You are #${highScores.indexOf(score)} in Top Scores.</p>`;
-    }
-
-    gameOverPage.style.display = 'flex';
-    warningOverlay.style.display = 'none';
-    game.style.display = 'none';
-    hsBtns[1].style.display = 'flex';
-    bg.style.visibility = "visible";
-});
-
-// game canvas
-// wrap in arrow function to prevent bugs/overwriting
-// code runs when the file loads
+// code runs when the dom content loads
 window.addEventListener("DOMContentLoaded", () => {
-    const canvas = document.getElementById('game-canvas');
-    const ctx = canvas.getContext('2d');
+    // dom elements
+    const tutorialBtns = document.querySelectorAll('.tutorial');
+    const tutorialOverlay = document.getElementById('tutorial-overlay');
+    const closeTutorialBtn = document.getElementById('close-tutorial-icon');
+    const hsBtns = document.querySelectorAll('.trophy-icon');
+    const hsOverlay = document.getElementById('hs-overlay');
+    const closeHsBtn = document.getElementById('close-hs-icon');
+    const startBtn = document.getElementById('start');
+    const startOverBtn = document.getElementById('start-over');
+    const homepage = document.getElementById('home-container');
+    const game = document.getElementById('game-container');
+    const input = document.getElementById('username');
+    const exitBtn = document.getElementById('exit');
+    const warningOverlay = document.getElementById('warning-overlay');
+    const warningPopup = document.getElementById('warning-popup');
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const gameOverPage = document.getElementById('game-over-container');
+    const finalScoreSpan = document.getElementById('final-score');
+    const finalUser = document.getElementById('player-username');
+    const countdownDiv = document.getElementById('countdown');
+    const infoContainer = document.getElementById('info-container');
+    const scoreSpan = document.getElementById('score');
+    const livesSpan = document.getElementById('lives');
+    const nextLifeSpan = document.getElementById('next-life');
 
     // game stats
-    const scoreSpan = document.getElementById("score");
-    const livesSpan = document.getElementById("lives");
-    const nextLifeSpan = document.getElementById("next-life");
+    let asteroids = [];
+    let rockets = [];
+    let nextLifePts = 4000; // every 4000 points mean an extra life
+    let nextLifeThreshold = nextLifePts; // next score the player must hit to get a life
+    let lives = 3;
+    let maxRockets = 3;
+    let gameOver = false;
+    let username = "";
+    let score = 0;
+    let gamePaused = false;
+    let interval = null;
+    const maxAsteroids = 10; // avoid spawning too many asteroids for balanced gameplay
+    let gameActive = false;
+
+
+    // create animated stars homepage background
+    // stars canvas
+    const bg = document.getElementById('bg');
+    // get context
+    const sctx = bg.getContext("2d");
+
+    // set canvas size
+    function resize() {
+        bg.width = window.innerWidth;
+        bg.height = window.innerHeight;
+    }
+
+    resize();
+
+    // glow effect
+    sctx.shadowBlur = 10;
+    sctx.shadowColor = "white";
+
+    // create animation on canvas
+    // set max stars to avoid drawing too many stars
+    function animateStars(maxStars = 1) {
+        for (let i = 0; i < maxStars; i++) {
+            // set random position and size for the stars
+            let x = Math.random() * bg.width;
+            let y = Math.random() * bg.height;
+            let r = Math.random() * 2.5;
+
+            // draw the white stars
+            sctx.beginPath();
+            sctx.fillStyle = "white";
+            sctx.arc(x, y, r, 0, Math.PI * 2);
+            sctx.fill();
+        }
+
+        setTimeout(animateStars, 100);
+    }
+
+    animateStars();
+
+    // on click event listeners for buttons
+    tutorialBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // show tutorial pop-up and black tint
+            tutorialOverlay.style.display = 'flex';
+        });
+    });
+
+    closeTutorialBtn.addEventListener('click', () => {
+        // hide tutorial pop-up and black tint
+        tutorialOverlay.style.display = 'none';
+    });
+
+    hsBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            renderHighScores();
+            
+            // show hs pop-up and black tint
+            hsOverlay.style.display = 'flex';
+        });
+    });
+
+    closeHsBtn.addEventListener('click', () => {
+        // hide hs pop-up and black tint
+        hsOverlay.style.display = 'none';
+    });
+
+    startBtn.addEventListener('click', () => {
+        username = input.value.trim() || "Player"; // default name if left empty
+
+        homepage.style.display = 'none';
+        hsBtns.forEach(btn => btn.style.display = 'none');
+        game.style.display = 'flex';
+        gameOverPage.style.display = 'none';
+        bg.style.visibility = 'hidden';
+
+        // initialize game state on start
+        initGame();
+
+        // only start game when clicking on start button
+        gameActive = true;
+
+        // reset timestamp
+        lastTime = performance.now();
+
+        // use smooth movement
+        requestAnimationFrame(gameLoop);
+
+        // spawn asteroids every three seconds
+        spawnInterval = setInterval(() => {
+            if (!gameOver && gameActive) spawnAsteroid();
+        }, 3000);
+    });
+
+    // restart game state when clicking on start over
+    startOverBtn.addEventListener('click', () => {
+        // reset asteroids, score...
+        initGame();
+
+        // allow game loop to run
+        gameOver = false;
+        gamePaused = false;
+
+        // reset timestamp
+        lastTime = performance.now();
+
+        // style
+        game.style.display = 'flex';
+        gameOverPage.style.display = 'none';
+        bg.style.visibility = 'hidden';
+        hsBtns.forEach(btn => btn.style.display = 'none');
+    })
+
+    exitBtn.addEventListener('click', () => {
+        // pause game
+        gamePaused = true;
+
+        // make elements visible
+        warningOverlay.style.display = 'flex';
+        warningPopup.style.display = 'flex';
+
+        // clear interval if it exists
+        if (interval) clearInterval(interval);
+        // reset interval
+        interval = null;
+
+        // reset countdown text
+        countdownDiv.textContent = '';
+    });
+
+    noBtn.addEventListener('click', () => {
+        // pause the game
+        gamePaused = true;
+
+        // show overlay only
+        warningOverlay.style.display = 'flex';
+        warningPopup.style.display = 'none';
+
+        // reset countdown
+        let countdown = 3;
+        countdownDiv.textContent = countdown;
+
+        interval = setInterval(() => {
+            countdown--;
+            countdownDiv.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(interval);
+                warningOverlay.style.display = 'none';
+                // unpause game
+                gamePaused = false;
+                countdownDiv.textContent = '';
+            }
+        }, 1000);
+    });
+
+    yesBtn.addEventListener('click', () => {
+        finalScoreSpan.textContent = score;
+        finalUser.textContent = username;
+        addHighScore(username, score);
+
+        // clear old content/go back to default
+        infoContainer.innerHTML = `<p><span id="player-username">${username}</span>, you earned <span id="final-score">${score}</span> points!</p>`;
+
+        // get highscores
+        const scores = loadHighScores();
+
+        // define index to use to search through highscores
+        const index = scores.findIndex(hs => hs.player === username && hs.score === score);
+
+        // inform player if in score is in top five
+        if (index != -1) {
+            infoContainer.innerHTML += `<p id="hs-place-p">You are #${index + 1} in Top Scores.</p>`;
+        }
+
+        gameOverPage.style.display = 'flex';
+        warningOverlay.style.display = 'none';
+        game.style.display = 'none';
+        hsBtns[1].style.display = 'flex';
+        bg.style.visibility = "visible";
+    });
+
+    // highscores
+    // store top 5 high scores (fake data)
+    let highScores = [ { player: "Norre", score: 8000 }, { player: "Pink_", score: 6000 }, { player: "HeavenAndBack", score: 4400 }, { player: "Lexy", score: 2200 }, { player: "Jinx", score: 2000 }];
+
+    // run once at startup to populate highscore pop-up
+    if (!localStorage.getItem("highScores")) {
+        saveHighScores(highScores);
+    }
+
+    // save high scores using web storage api
+    function saveHighScores(highScores) {
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+    }
+
+    // load high scores using web storage api
+    function loadHighScores() {
+        const scores = localStorage.getItem("highScores");
+        return scores ? JSON.parse(scores) : []; 
+    }
+
+    // add high scores
+    function addHighScore(player, score) {
+        let highScores = loadHighScores();
+
+        // add new score
+        highScores.push({ player, score });
+
+        // sort descending by score
+        highScores.sort((player1, player2) => player2.score - player1.score);
+
+        // keep only top five
+        highScores = highScores.slice(0, 5);
+
+        // save new top five in local storage
+        saveHighScores(highScores); 
+    }
+
+    function renderHighScores() {
+        // get highscore container
+        const hsContainer = document.getElementById('hs-cards-container');
+
+        // get highscores
+        const highScores = loadHighScores();
+
+        // clean old content
+        hsContainer.innerHTML = "";
+        
+        // render each highscore
+        highScores.forEach(hs => {
+            hsContainer.innerHTML += `<div class="hs-card">
+                                        <div class="hs-place-user">
+                                            <p class="hs-place">${highScores.indexOf(hs) + 1}</p>
+                                            <p class="hs-user">${hs.player}</p>
+                                        </div>
+                                        <p class="hs-score">${hs.score}</p>
+                                    </div>`;
+        })
+    }
+
+    // game canvas
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
 
     // resize canvas whenever the window changes
     function resizeGameCanvas() {
@@ -270,16 +297,6 @@ window.addEventListener("DOMContentLoaded", () => {
     })
     
     resizeGameCanvas();
-
-    // game state
-    let asteroids = [];
-    let rockets = [];
-    // score is global
-    let nextLifePts = 4000; // every 4000 points mean an extra life
-    let nextLifeThreshold = nextLifePts; // next score the player must hit to get a life
-    let lives = 3;
-    let maxRockets = 3;
-    let gameOver = false;
 
     // ship
     const ship = {
@@ -581,6 +598,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // spawn random asteroids
     function spawnAsteroid() {
+        // do not go over max number
+        if (asteroids.length >= maxAsteroids) return;
+
         // choose side of screen to spawn from
         // 0: top, 1: right, 2: bottom, 3: left
         const side = Math.floor(rand(0, 4));
@@ -728,6 +748,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // if no more lives...
         if (lives <= 0) {
             gameOver = true;
+            gameActive = false;
             game.style.display = 'none';
             gameOverPage.style.display = 'flex';
             hsBtns.forEach(btn => btn.style.display = 'flex');
@@ -769,8 +790,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 // if circles overlap, collision occures
                 if (distance < minD && distance > 0) {
                     // normalize vector
-                    nx = (ast2.x - ast1.x) / distance;
-                    ny = (ast2.y - ast1.y) / distance;
+                    const nx = (ast2.x - ast1.x) / distance;
+                    const ny = (ast2.y - ast1.y) / distance;
 
                     // difference in how fast they are moving into each other
                     // how fast 1 is moving into 2 - how fast 2 is moving into 1 along the collision direction
@@ -802,7 +823,7 @@ window.addEventListener("DOMContentLoaded", () => {
     function updateGameStatsUI() {
         scoreSpan.textContent = score;
         livesSpan.textContent = lives;
-        ptsLeft = nextLifeThreshold - score;
+        const ptsLeft = nextLifeThreshold - score;
         nextLifeSpan.textContent = ptsLeft;
     }
 
@@ -835,7 +856,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // game loop
     function gameLoop(timestamp) {
-        if (gameOver) return; // stop game
+        if (!gameActive || gameOver) return; // stop game
 
         // use delta time
         if (!gamePaused) {
@@ -863,9 +884,4 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // start game loop
     requestAnimationFrame(gameLoop);
-
-    // spawn asteroids every three seconds
-    const spawnInterval = setInterval(() => {
-        if (!gameOver) spawnAsteroid();
-    }, 3000);
 })
