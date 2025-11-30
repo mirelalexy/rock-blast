@@ -31,9 +31,10 @@ window.addEventListener("DOMContentLoaded", () => {
     const arrowDown = document.getElementById('arrow-down');
     const arrowLeft = document.getElementById('arrow-left');
     const arrowRight = document.getElementById('arrow-right');
-    const rotateLeftBtn = document.getElementById('rotate-left');
-    const rotateRightBtn = document.getElementById('rotate-right');
-    const attackBtn = document.getElementById('attack');
+    const rotationAttackBtns = document.querySelectorAll('#rotation-attack-controls svg');
+    const rotateLeftBtn = rotationAttackBtns[0];
+    const rotateRightBtn = rotationAttackBtns[1];
+    const attackBtn = rotationAttackBtns[2];
 
     // press and release for touchscreen controls
     function bindHold(btn, onPress, onRelease) {
