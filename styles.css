@@ -571,6 +571,10 @@ body {
 
 /* for mobile devices */
 @media screen and (max-width: 1000px) {
+    body {
+        height: 80vh;
+    }
+    
     #stars-container svg {
         height: 20vh;
         width: 70vw;
