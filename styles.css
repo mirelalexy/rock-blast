@@ -18,12 +18,9 @@ body {
 
 #home-container {
     display: flex;
-    width: 668px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    
 }
 
 .start {
@@ -32,11 +29,11 @@ body {
     background: linear-gradient(90deg, #14DE2C 0%, #1ACA20 100%);
     font-family: "Press Start 2P";
     color: #FFFFFF;
-    height: 56px;
+    height: 6vh;
     padding: 8px 16px;
     align-self: stretch;
     text-transform: uppercase;
-    font-size: 20px;
+    font-size: 1.3em;
 }
 
 .start:hover {
@@ -50,11 +47,11 @@ body {
     background: #00000080;
     font-family: "Press Start 2P";
     color: #FFFFFF;
-    height: 56px;
+    height: 6vh;
     padding: 8px 16px;
     align-self: stretch;
     text-transform: uppercase;
-    font-size: 20px;
+    font-size: 1.3em;
 }
 
 .tutorial:hover {
@@ -572,4 +569,21 @@ body {
     text-align: center;
     color: #FFFFFF;
     font-family: "Press Start 2P";
+}
+
+/* for mobile devices */
+@media screen and (max-width: 600px) {
+    #stars-container svg {
+        height: 20vh;
+        width: 70vw;
+    }
+
+    #logo-container svg {
+        height: 30vh;
+        width: 90vw;
+    }
+
+    #logo-btn-container, #btn-container {
+        width: 90vw;
+    }
 }
