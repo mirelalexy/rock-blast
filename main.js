@@ -280,6 +280,7 @@ window.addEventListener("DOMContentLoaded", () => {
             infoContainer.innerHTML += `<p id="hs-place-p">You are #${index + 1} in Top Scores.</p>`;
         }
 
+        bg.width = bg.width // reset bg canvas
         gameOverPage.style.display = 'flex';
         warningOverlay.style.display = 'none';
         game.style.display = 'none';
