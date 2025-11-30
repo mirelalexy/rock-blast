@@ -570,7 +570,7 @@ body {
 }
 
 /* for mobile devices */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
     #stars-container svg {
         height: 20vh;
         width: 70vw;
@@ -599,5 +599,9 @@ body {
 
     #tutorial-title svg, #tutorial-title-instructions-container, .hs-card {
         width: 70vw;
+    }
+    
+    #username {
+        height: 6vh;
     }
 }
