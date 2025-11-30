@@ -227,9 +227,7 @@ body {
 #close-tutorial-icon {
     position: absolute;
     top: 40px;
-    right: 1px;
-    width: 67px;
-    height: 67px;
+    right: 35px;
     cursor: pointer;
 }
 
@@ -585,5 +583,21 @@ body {
 
     #logo-btn-container, #btn-container {
         width: 90vw;
+    }
+
+    #hs-popup, #tutorial-popup, #hs-content-container, #hs-title svg {
+        width: 80vw;
+    }
+
+    #movement-container {
+        height: 13vh;
+    }
+
+    #rotation-container, #attack-container {
+        height: 10vh;
+    }
+
+    #tutorial-title svg, #tutorial-title-instructions-container, .hs-card {
+        width: 70vw;
     }
 }
