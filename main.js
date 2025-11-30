@@ -26,6 +26,55 @@ window.addEventListener("DOMContentLoaded", () => {
     const livesSpan = document.getElementById('lives');
     const nextLifeSpan = document.getElementById('next-life');
 
+    // touchscreen controls
+    const arrowUp = document.getElementById('arrow-up');
+    const arrowDown = document.getElementById('arrow-down');
+    const arrowLeft = document.getElementById('arrow-left');
+    const arrowRight = document.getElementById('arrow-right');
+    const rotateLeftBtn = document.getElementById('rotate-left');
+    const rotateRightBtn = document.getElementById('rotate-right');
+    const attackBtn = document.getElementById('attack');
+
+    // press and release for touchscreen controls
+    function bindHold(btn, onPress, onRelease) {
+        // start touch
+        btn.addEventListener("touchstart", e => {
+            e.preventDefault(); // prevent scrolling and zoom
+            onPress();
+        })
+
+        // release touch
+        btn.addEventListener("touchend", e => {
+            e.preventDefault();
+            onRelease();
+        })
+
+        // add mouse fallback to make touch buttons usable on pc too
+        btn.addEventListener("mousedown", onPress);
+        btn.addEventListener("mouseup", onRelease);
+        btn.addEventListener("mouseleave", onRelease);
+    }
+
+    // create the bindings for touchscreen controls
+    // movement
+    bindHold(arrowUp, () => user.up = true, () => user.up = false);
+    bindHold(arrowLeft, () => user.left = true, () => user.left = false);
+    bindHold(arrowRight, () => user.right = true, () => user.right = false);
+    bindHold(arrowDown, () => user.down = true, () => user.down = false);
+
+    // rotation
+    bindHold(rotateLeftBtn, () => user.rotateLeft = true, () => user.rotateLeft = false);
+    bindHold(rotateRightBtn, () => user.rotateRight = true, () => user.rotateRight = false);
+
+    // attack
+    attackBtn.addEventListener("touchstart", e => {
+        e.preventDefault();
+        shoot();
+    })
+
+    // add mouse fallback for shooting too
+    attackBtn.addEventListener("mousedown", shoot);
+
     // game stats
     let asteroids = [];
     let rockets = [];
