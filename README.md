@@ -1,48 +1,67 @@
 # Rock Blast
 
-Ready to pilot a spaceship through a field of pesky asteroids? Survive, destroy, and rack up points to become the best pilot space has ever seen.
+A browser arcade game with a neon pixel look. Pilot a spaceship through a field of numbered asteroids, destroy them before they hit you, and climb the leaderboard.
 
----
+**[Play it here.](https://mirelalexy.github.io/rock-blast/)**
+
+![Start screen](screenshots/start.png)
+
+## How to play
+
+Every asteroid shows a number: that's how many rockets it takes to destroy it. Shoot them down for points, avoid touching them, and survive as long as you can.
+
+- Destroying an asteroid earns **200 points**.
+- Colliding with an asteroid costs a life and restarts the round.
+- Earn points to win extra lives (the HUD shows how far you are from the next one).
+- Lose all your lives and the game ends. Your score is ranked against the top 5.
+
+### Controls
+
+| Action                  | Keyboard   | Touchscreen                    |
+| ----------------------- | ---------- | ------------------------------ |
+| Move up/down/left/right | Arrow keys | On-screen directional pad      |
+| Rotate left             | Z          | Rotate left button             |
+| Rotate right            | C          | Rotate right button            |
+| Launch a rocket         | X          | Rocket button                  |
+
+A built-in tutorial also explains the controls in the game.
 
 ## Features
 
-### 🛸 The Arena
-- **Doom**: Each asteroid has a number (1–4) showing how many rockets it takes to obliterate it.  
-- **Rainbow Rocks**: Color and size change depending on the asteroid’s rocket count — tiny red snacks or massive pink space boulders!  
-- **Random Floaters**: Asteroids glide in linear trajectories with unpredictable speeds.  
+- **Numbered asteroids:** each one's color and size reflect how many rockets it takes to destroy it, from small red ones (1) to large magenta ones (4).
+- **Physics:** asteroids drift at random speeds and bounce off each other when they collide.
+- **Rocket limit:** only 3 rockets can be in flight at once, so every shot counts.
+- **Lives and extra lives:** a live HUD shows your lives, your score, and how far away the next extra life is.
+- **Top 5 leaderboard:** scores and player names are saved in your browser with Web Storage, and the game over screen tells you where you ranked.
+- **Keyboard and touch support:** playable on desktop, phone, and tablet.
+- **Retro UI:** pixel font, neon glow, and an animated starfield.
 
-### 🚀 Spaceship
-- **Space... triangle?**: Your trusty ship, ready to zoom around the cosmos, in the shape of a triangle.  
-- **Acrobat/Pilot**: Arrow keys let you dodge and sneak past asteroids.  
-- **Dizzy**: Rotate left or right to line up epic shots.  
-- **Not Powerless!**: Fire rockets in your current facing direction.  
+## Screenshots
 
-### 🔥 Rockets
-- **Mini Missiles**: Rockets travel from your ship to your target asteroid.  
-- **Boom!**: Rockets reduce asteroid health on impact.  
-- **Where Are All My Rockets?**: Only 3 rockets can be airborne at a time, but sometimes your ship will play tricks on you and you will only get 1 or 2. Choose your target wisely.
+| Game over | Tutorial | Leaderboard |
+| :---: | :---: | :---: |
+| ![Game over](screenshots/gg.png) | ![Tutorial](screenshots/tutorial.png) | ![Top scores](screenshots/leaderboard.png) |
 
-### 💥 Collisions
-- **Bounce**: When asteroids collide, they ricochet along new paths.  
-- **Showdown**: Colliding with an asteroid costs a life and restarts the game until you’re out.  
+| Gameplay |
+| :---: |
+| ![Rock Blast gameplay](screenshots/gameplay.png) |
 
-### ❤️ Life & Score
-- **Point Collector 3000**: Destroy an asteroid to earn 200 points.  
-- **Surprise...?**: Reach 5000 points to earn an extra life!  
+## Run it locally
 
-### 📱 Touchscreen
-- **Gotta Go!**: Full touchscreen support so you can blast asteroids on the go.  
+No build step needed.
 
-### 🏆 Highscores
-- **Top 5 Pilots**: *Rock Blast* saves the top 5 scores and player names using Web Storage. Will you make the leaderboard?  
+```bash
+git clone https://github.com/mirelalexy/rock-blast.git
+cd rock-blast
+```
+
+Open `index.html` in your browser or [play it live here](https://mirelalexy.github.io/rock-blast/).
+
+## Tech stack
+
+- HTML, CSS, and JavaScript, no frameworks or libraries
+- Web Storage API for the leaderboard
 
 ---
 
-## Controls (Keyboard)
-
-| Action                 | Key / Input           |
-|------------------------|---------------------|
-| Move Up/Down/Left/Right | Arrow Keys          |
-| Rotate Left             | Z                   |
-| Rotate Right            | C                   |
-| Shoot Rocket            | X                   |
+Hosted with GitHub pages.
